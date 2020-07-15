@@ -73,12 +73,12 @@
           "operationId": "Workspaces_CreateOrUpdate",
           "description": "Creates a new workspace.",
           "responses": {
-            "default": {
               "200": {
                 "description": "OK - Created or updated the workspace."
               },
-              "description": "Error response describing why the operation failed."
-            }
+              "default": {
+                "description": "Error response describing why the operation failed."
+              }
           }
         },
         "patch": {
@@ -93,6 +93,9 @@
             },
             "202": {
               "description": "Accepted"
+            },
+            "default": {
+              "description": "Error response describing why the operation failed."
             }
           }
         }

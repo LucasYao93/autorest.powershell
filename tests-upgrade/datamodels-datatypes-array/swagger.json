@@ -44,44 +44,59 @@
           "description": "Gets the workspace.",
           "responses": {
             "200": {
-                "description": "OK-Return workspace."
+                "description": "OK-Return workspace.",
+                "schema":{
+                  "$ref": "#/definitions/Workspace"
+                }
             },
             "default": {
-              "description": "Error response describing why the operation failed.",
-              "schema": {
-                  "$ref": "#/definitions/BasicErrorModel"
-              }
+              "description": "Error response describing why the operation failed."
             }
           }
         }
       }
     },
     "definitions": {
-        "BasicErrorModel": {
-            "type": "object",
-            "required":[
-                "message",
-                "code"
-            ],
-            "properties": {
-                "datetime": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "host": {
-                    "type": "string",
-                    "pattern":"^\\d{3}-\\d{2}-\\d{4}$",
-                    "nullable": true
-                },
-                "message": {
-                    "type": "string",
-                    "minLength": 3,
-                    "maxLength": 300
-                },
-                "code": {
-                    "type": "integer"
-                }
+        "ErrorDetail": {
+          "type": "array",
+          "items":{
+            "type": "integer"
+          },
+          "uniqueItems": true
+        },
+        "ErrorList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDetail"
+          },
+          "minItems": 1,
+          "maxItems": 10
+        },
+        "ErrorCode": {
+          "type": "array",
+          "items": {
+            "type":"array",
+            "items": {
+              "type": "integer"
             }
+          }
+        },
+        "Workspace":{
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "sku": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              }
+            }
+          }
         }
     }
 }

@@ -137,8 +137,8 @@
       }
     },
     "parameters": {
-      "ResourceGroup":{
-        "name": "resourceGroupName",
+      "ResourceGroupName":{
+        "name": "resourceGroup",
         "in": "path",
         "required": true,
         "type": "string",
