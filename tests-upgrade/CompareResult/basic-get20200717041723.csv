@@ -1,0 +1,8 @@
+"fileName","Path","fileFolderName","Status"
+"GetAzAutoRestUpgradeWorkspace_Get.cs","\generated\cmdlets\GetAzAutoRestUpgradeWorkspace_Get.cs","M3","different"
+"AutoRestUpgradeIdentity.cs","\generated\api\Models\AutoRestUpgradeIdentity.cs","M3","different"
+"AutoRestUpgradeIdentity.PowerShell.cs","\generated\api\Models\AutoRestUpgradeIdentity.PowerShell.cs","M3","different"
+"AutoRestUpgradeIdentity.TypeConverter.cs","\generated\api\Models\AutoRestUpgradeIdentity.TypeConverter.cs","M3","different"
+"AutoRestUpgradeClient.cs","\generated\api\AutoRestUpgradeClient.cs","M3","different"
+"AutoRestUpgradeIdentity.json.cs","\generated\api\Models\AutoRestUpgradeIdentity.json.cs","M3","different"
+".gitignore","\tools\Resources\.gitignore","M4","lack in m3"

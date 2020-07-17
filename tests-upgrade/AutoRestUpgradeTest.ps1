@@ -1,13 +1,13 @@
-﻿param([switch]$Generate,[string]$TestName,[switch]$M3,[switch]$M4,[switch]$Configuration,[switch]$blackConfiguration)
+﻿param([switch]$Generate,[string]$TestName,[switch]$M3,[switch]$M4,[switch]$WhiteList,[switch]$BlackList)
 #need to use the right version of node.js
-nvs use 10.16.0
+#nvs use 10.16.0
 # #please use substring to select the compare path
 #     $m3Path='.\generate\m3'
 #     $m4Path='.\generate\m4'
 $scriptPath = Get-Location
 if($WhiteList)
 {
-    $configurationFileName = $scriptPath.path +'\Configuration.csv'
+    $configurationFileName = $scriptPath.path +'\WhiteConfiguration.csv'
     $testList = import-Csv $configurationFileName
 }
 if($BlackList)
@@ -22,7 +22,8 @@ function isCommand([Object]$Object1 , [Object]$Object2)
     $difference
     foreach($line in $difference)
     {
-        if(!$line.InputObject.Startswith('//'))
+        $lineInfo = $line.InputObject.Replace(' ','')
+        if(!$lineInfo.Startswith('//'))
         {
             $isCommandResult = $false
             return $isCommandResult
@@ -38,13 +39,13 @@ function Generate()
         ##generate m3 code
         autorest-beta --use:@autorest/powershell@2.1.386 --output-folder:.\generate\m3 --Debug
         ##generate m4 code
-        autorest-beta --use:D:\comparetest\ModuleFour\autorest.powershell --output-folder:.\generate\m4 --Debug
+        autorest-beta --use:D:\autorest.powershell-m4\autorest.powershell --output-folder:.\generate\m4 --Debug
     }elseif($M3)
     {
         autorest-beta --use:@autorest/powershell@2.1.386 --output-folder:.\generate\m3 --Debug
     }else
     {
-        autorest-beta --use:D:\comparetest\ModuleFour\autorest.powershell --output-folder:.\generate\m4 --Debug
+        autorest-beta --use:D:\autorest.powershell-m4\autorest.powershell --output-folder:.\generate\m4 --Debug
     }
 }
 
@@ -128,7 +129,6 @@ function CompareTest([string]$inputm3Path,[string]$inputm4Path,[string]$testFile
         {
             $M3CompareFile = Get-Content ($inputm3Path + $initDictDetail)
             $M4CompareFile = Get-Content ($inputm4Path + $initDictDetail)
-            $initDictDetail
             $isCommandResult = isCommand -Object1 $M3CompareFile -Object2 $M4CompareFile
             # $isCommandResult
             if( $isCommandResult -ne $True)
@@ -178,7 +178,7 @@ function CompareTest([string]$inputm3Path,[string]$inputm4Path,[string]$testFile
 $currentPath = Get-Location
 $fileList = Get-ChildItem
 #if only one case
-if($TestName -ne $null)
+if($TestName -ne $null -and ($TestName -ne ''))
 {
     $currentDetailPath = Get-Location
     # if(($fileDeatil.Mode -eq 'd----') -and ($fileDeatil.Name -eq $TestName))
@@ -238,23 +238,21 @@ if($TestName -ne $null)
 }
 else
 {
-    $ggg= 'attach here'
-    $agg= 'attach each'
-    $ggg
     foreach($fileDetail in $fileList)
     {
-        $agg
         $currentDetailPath = Get-Location
-        if($fileDeatil.Mode -eq 'd----')
+        if($fileDetail.Mode -eq 'd----' -and (!$fileDetail.Name.Startswith('Compare')))
         {
-            $ggg
+            $g1 = $currentPath.Path +'\' +$fileDetail.Name
+            $g1
             cd ($currentPath.Path +'\' +$fileDetail.Name)
             $deatilPath = $currentDetailPath.Path + 'generate'
             Generate
             if(-not $Generate)
             {
-            Compare(($currentDetailPath.Path + '\generate\m3') , ($currentDetailPath.Path + '\generate\m4'))
+                Compare(($currentDetailPath.Path + '\generate\m3') , ($currentDetailPath.Path + '\generate\m4'))
             }
         }
     }
 }
+cd $currentPath.Path
