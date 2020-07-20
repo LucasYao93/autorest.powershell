@@ -1,7 +1,5 @@
 {
 	"WhiteList":[
-		"basic-spec-required",
-		"basic-spec-root",
 		"basic-disableazure-get",
 		"basic-disableazure-response"
 	],
